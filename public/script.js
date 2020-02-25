@@ -30,13 +30,19 @@ function getFocus(name) {
 }
 
 function validateForm() {
+    var none = {null:null, "":""}
     var name = document.forms["myform"]["name"].value;
     var email = document.forms["myform"]["email"].value;
     var blood = document.forms["myform"]["blood"].value;
-    console.log(name)
-    if (name == "" || name == null) {
+    if (name in none || email in none || blood in none) {
         alert("Todos os campos são obrigatórios");
         return false;
     }
+}
+
+function putMethod(event) {   
+    console.log('aaa')
+
+    console.log(event)
 }
     

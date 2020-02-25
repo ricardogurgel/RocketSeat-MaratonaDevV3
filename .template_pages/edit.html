@@ -1,0 +1,9 @@
+        <section class="form">
+            <h2>Editar na lista de doadores</h2>
+            <form name="myform" action="/{{donors[0].id}}" onsubmit="return validateForm()" method="put" required>
+                <input type="text" name="name" placeholder="Nome Completo:" id="name" value="{{donors[0].name}}">
+                <input type="text" name="email" placeholder="Email:" value="{{donors[0].email}}">
+                <input type="text" name="blood" placeholder="Tipo Sanguineo:" value="{{donors[0].email}}">
+                <button onclick="return putMethod()">Quero Ajudar</button>
+            </form>
+        </section>

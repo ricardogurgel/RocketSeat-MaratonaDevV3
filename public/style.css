@@ -7,6 +7,15 @@
             color: rgb(245, 229, 160);
         }
 
+        a.putlink { 
+            color: black !important;
+            text-decoration: none;
+        }
+
+        a.links:hover {
+            color: 000000
+        }
+
         * {
             box-sizing: border-box;
             
@@ -35,6 +44,12 @@
         }
         header p, header h1 {
             line-height: 0.40em;
+        }
+        .donor p {
+            line-height: 0.60em;
+        }
+        .name {
+            margin-bottom: 50px;
         }
 
         /* SEÇÕES */
@@ -77,7 +92,7 @@
         main .donors {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr 1fr; /* ----> isso é legal */
-            margin: 0px 70px 10px 70px;
+            margin: 0px 70px 0px 70px;
         }
 
         .blood {
@@ -87,6 +102,7 @@
             display: flex;
             position: relative;
             justify-content: center;
+            margin-bottom: 0px;
             
         }
 

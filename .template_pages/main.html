@@ -1,13 +1,12 @@
             <h2>Últimos <span>Doadores</span></h2>
             <section class='donors'>
-
                 {% for donor in donors %}
                 <div class='donor'>
                     <div class='blood'>
                         <p>{{donor.blood}}</p>
                     </div>
                     <div class='name'>
-                        <p>{{donor.name}}</p>
+                        <a class='putlink' href="/{{donor.id}}"><p>{{donor.name}}</a></p>
                     </div>
                 </div>
                 {%endfor%}

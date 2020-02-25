@@ -25,7 +25,8 @@ port = process.env.PORT || 3000
 
 // incluir arquivos "não html" no server (imagens, css, .js, etc) 
 server.use(express.static('public'))
-
+bodyParser = require('body-parser')
+server.use(bodyParser.json())
 //
 // incluir os dados de <body> no request (req)
 //
@@ -64,7 +65,7 @@ server.listen(port, function(a,b,c){
 //      3. await e catch error
 ////////////////////////////////////////////////////////////////////////////
 server.get('/', async (req, res, next) => {
-   
+
         await db.query('select * from donors order by id desc limit 12', function(err, result) {
             if (err) {
                 console.log(`!!! ${err}`)
@@ -82,6 +83,7 @@ server.get('/', async (req, res, next) => {
 
 
 server.get('/done', async (req, res, next) => {
+    
 var html = {
     header: `${templateDir}header.html`,
     section: `${templateDir}thanks.html`,
@@ -108,7 +110,8 @@ var html = {
 //
 //
 ////////////////////////////////////////////////////////////////////////////
-server.post('/', async (req,res,next) => {
+server.post('/', async (req,res,next)  => {
+    console.log(req.body)
     if(typeof req.body == 'undefined') {
         return res.send(`<b>Erro ao transmitir dados do formulário (body-parser erro)<b>`)
     }
@@ -119,10 +122,74 @@ server.post('/', async (req,res,next) => {
     if (name,blood,email ==""){
         res.send(`<b>Erro ao inserir dados<b> ${err}`)
     }
-    await db.query(query, function(err){
+    await db.query(query, function(err) {
         if (err) {
             return res.send(`<b>Erro ao inserir dados<b> ${err}`)
         } else {
             return res.redirect('/done')
         }})
 })
+
+//
+//
+//
+// Apenas testando e aprendendo. um get pegando a ID do registro pela url
+// A idéia é depois criar um put para atualizar os dados, ou apagar o cadastro...
+// 
+//
+///////////////////////////////////////////////////
+server.get('/:id', async (req, res) => {
+    var html = {
+        header: `${templateDir}header.html`,
+        section: `${templateDir}edit.html`,
+        main: `${templateDir}main.html`
+    }
+    var id = req.params.id
+    //var body = req.body
+    //console.log(id)
+    await db.query(`select * from donors where id=${id}`, function (err, result) {
+        if (err) {
+            console.log(`!!! ${err}`)
+            return res.status(400).send(`<b>deu ruim:</b> ${err}`)
+        } else {
+            var donors = result.rows
+            console.log(donors)
+            return res.render('index.html', { donors, html })
+        }})
+
+    });
+//
+//
+//
+// Aqui vai ser o put... Porém parece que não é possível acessar o metodo pelo html
+// pensando aqui, talvez seja possível fazer com que o put faça atualizações dinamicas
+// na página... coisas para se testar.
+//
+//
+//
+//
+//////////////////////////////////////////////////////////
+server.put('/:id', async (req, res) => {
+    var html = {
+        header: `${templateDir}header.html`,
+        section: `${templateDir}aaa.html`,
+        main: `${templateDir}main.html`
+    }
+    var id = req.params.id
+    var body = req.body
+    console.log(id)
+    console.log(body)
+    await db.query(`select * from donors where id=${id}`, function (err, result) {
+        if (err) {
+            console.log(`!!! ${err}`)
+            return res.status(400).send(`<b>deu ruim:</b> ${err}`)
+        } else {
+            var donors = result.rows
+            console.log(donors)
+            return res.render('index.html', { donors, html })
+        }
+    })
+
+}); 
+    
+
